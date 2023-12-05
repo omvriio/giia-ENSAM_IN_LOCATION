@@ -1,5 +1,4 @@
 from flask import Flask , render_template,url_for,flash,redirect
-from flask_sslify import SSLify
 from forms import RegistrationForm,LoginForm
 app = Flask(__name__)
 # sslify=SSLify(app)
@@ -41,4 +40,4 @@ def login():
     form = LoginForm()
     return render_template('login.html',title = 'Login', form=form)
 if __name__=__main__
-    app.run(debug=True,host='0.0.0.0')
+    app.run(host='0.0.0.0',port=5000)
