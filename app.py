@@ -40,5 +40,5 @@ def register():
 def login():
     form = LoginForm()
     return render_template('login.html',title = 'Login', form=form)
-
-    # app.run(ssl_context=('hostcert.pem', 'hostkey.pem'),debug=True,host='0.0.0.0')
+if __name__=__main__
+    app.run(debug=True,host='0.0.0.0')
