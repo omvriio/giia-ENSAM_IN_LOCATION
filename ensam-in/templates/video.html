@@ -1,29 +1,38 @@
-{% extends "layout.html" %}
+<!-- {% extends "layout.html" %}
 {% block content %}
 <div class="contain-section">
     <h1>IT'S A VIDEOOOO</h1>
-    <video id="video" autoplay style="transform: scaleX(-1);" ></video>
-</div>
-<div class ="navbar">
+    <video id="video" autoplay style="transform: scaleX(-1);"></video>
     <button id="startButton">Start Camera</button>
-    <button id="switchButton">Switch Camera</button> <!-- New button for switching cameras -->
+    <button id="switchButton">Switch Camera</button>
 </div>
-
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let video = document.getElementById('video');
         let startButton = document.getElementById('startButton');
         let switchButton = document.getElementById('switchButton');
-        var constraints = { video: { facingMode: "user" }, audio: false };
+        var constraints = { video: true, audio: false };
         var track = null;
-        var currentFacingMode = "user"; // Track current camera facing mode
+        var devices = [];
+        var currentDeviceIndex = 0; // Track the index of the current active camera
 
         startButton.addEventListener('click', function() {
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(function(stream) {
                     track = stream.getTracks()[0];
                     video.srcObject = stream;
+                    return navigator.mediaDevices.enumerateDevices();
+                })
+                .then(function(deviceInfos) {
+                    // Filter video input devices
+                    devices = deviceInfos.filter(device => device.kind === 'videoinput');
+                    if (devices.length > 0) {
+                        // Start with the first available camera
+                        startCamera(devices[currentDeviceIndex].deviceId);
+                    } else {
+                        console.error('No video input devices found.');
+                    }
                 })
                 .catch(function(error) {
                     console.error("Error accessing the camera:", error);
@@ -31,27 +40,90 @@
         });
 
         switchButton.addEventListener('click', function() {
-            // Toggle between available camera options
-            if (currentFacingMode === "user") {
-                constraints.video.facingMode = { exact: "environment" };
-                currentFacingMode = "environment";
-            } else {
-                constraints.video.facingMode = { exact: "user" };
-                currentFacingMode = "user";
-            }
+            if (devices.length > 1) {
+                currentDeviceIndex = (currentDeviceIndex + 1) % devices.length; // Cycle through devices
 
-            // Reinitialize video stream with updated constraints
-            navigator.mediaDevices.getUserMedia(constraints)
+                // Switch to the next camera in the list
+                startCamera(devices[currentDeviceIndex].deviceId);
+            }
+        });
+
+        // Function to start the camera based on the given device ID
+        function startCamera(deviceId) {
+            var updatedConstraints = { video: { deviceId: { exact: deviceId } }, audio: false };
+            navigator.mediaDevices.getUserMedia(updatedConstraints)
                 .then(function(stream) {
-                    track.stop(); // Stop the current stream
+                    if (track) {
+                        track.stop();
+                    }
                     track = stream.getTracks()[0];
                     video.srcObject = stream;
                 })
                 .catch(function(error) {
                     console.error("Error switching camera:", error);
                 });
-        });
+        }
+        video.style.transform = currentFacingMode === "user" ? "scaleX(-1)" : "none"; 
     });
 </script>
 
-{% endblock %}
+{% endblock %} -->
+<!doctype html>
+<html lang="en">
+    {% if title %}
+    <title>IN_LOCATION- {{title}}</title>
+    {% else %}
+    <title>IN_LOCATION </title>
+    {% endif %}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css')}}">
+  </head>
+<body>
+    <!-- Camera -->
+    <main id="camera">
+        <!-- Camera sensor -->
+        <canvas id="camera--sensor"></canvas>
+        <!-- Camera view -->
+        <video id="camera--view" autoplay playsinline></video>
+        <!-- Camera output -->
+        <img src="//:0" alt="" id="camera--output">
+        <!-- Camera trigger -->
+        <button id="camera--trigger">Take a picture</button>
+    </main>
+    <!-- Reference to your JavaScript file -->
+    <script>
+        // Set constraints for the video stream
+        var constraints = { video: { facingMode: "user" }, audio: false };
+        // Define constants
+        const cameraView = document.querySelector("#camera--view"),
+            cameraOutput = document.querySelector("#camera--output"),
+            cameraSensor = document.querySelector("#camera--sensor"),
+            cameraTrigger = document.querySelector("#camera--trigger")
+        // Access the device camera and stream to cameraView
+        function cameraStart() {
+            navigator.mediaDevices
+                .getUserMedia(constraints)
+                .then(function(stream) {
+                track = stream.getTracks()[0];
+                cameraView.srcObject = stream;
+            })
+            .catch(function(error) {
+                console.error("Oops. Something is broken.", error);
+            });
+        }
+        // Take a picture when cameraTrigger is tapped
+        cameraTrigger.onclick = function() {
+            cameraSensor.width = cameraView.videoWidth;
+            cameraSensor.height = cameraView.videoHeight;
+            cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
+            cameraOutput.src = cameraSensor.toDataURL("image/webp");
+            cameraOutput.classList.add("taken");
+        };
+        // Start the video stream when the window loads
+        window.addEventListener("load", cameraStart, false);
+    </script>
+</body>
+</html>
