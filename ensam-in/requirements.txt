@@ -1,0 +1,6 @@
+Flask==2.3.3
+wtforms
+flask_wtf
+requests==2.31.0
+firebase
+debugpy # Required for debugging.

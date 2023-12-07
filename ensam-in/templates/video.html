@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="contain-section">
+    <h1>IT'S A VIDEOOOO</h1>
+    <video id="video" autoplay style="transform: scaleX(-1);"></video>
+    <button id="startButton">Start Camera</button>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      let video = document.getElementById('video');
+      let startButton = document.getElementById('startButton');
+      var constraints = { video: { facingMode: "user" }, audio: false };
+      var track = null;
+  
+      startButton.addEventListener('click', function() {
+        navigator.mediaDevices.getUserMedia(constraints)
+          .then(function(stream) {
+            track = stream.getTracks()[0];
+            video.srcObject = stream;
+          })
+          .catch(function(error) {
+            console.error("Error accessing the camera:", error);
+          });
+      });
+    });
+  </script>  
+  
+{% endblock %}
