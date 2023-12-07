@@ -4,26 +4,51 @@
     <h1>IT'S A VIDEOOOO</h1>
     <video id="video" autoplay style="transform: scaleX(-1);"></video>
     <button id="startButton">Start Camera</button>
-  </div>
-  
-  <script>
+    <button id="switchButton">Switch Camera</button> <!-- New button for switching cameras -->
+</div>
+
+<script>
     document.addEventListener("DOMContentLoaded", function() {
-      let video = document.getElementById('video');
-      let startButton = document.getElementById('startButton');
-      var constraints = { video: { facingMode: "user" }, audio: false };
-      var track = null;
-  
-      startButton.addEventListener('click', function() {
-        navigator.mediaDevices.getUserMedia(constraints)
-          .then(function(stream) {
-            track = stream.getTracks()[0];
-            video.srcObject = stream;
-          })
-          .catch(function(error) {
-            console.error("Error accessing the camera:", error);
-          });
-      });
+        let video = document.getElementById('video');
+        let startButton = document.getElementById('startButton');
+        let switchButton = document.getElementById('switchButton');
+        var constraints = { video: { facingMode: "user" }, audio: false };
+        var track = null;
+        var currentFacingMode = "user"; // Track current camera facing mode
+
+        startButton.addEventListener('click', function() {
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function(stream) {
+                    track = stream.getTracks()[0];
+                    video.srcObject = stream;
+                })
+                .catch(function(error) {
+                    console.error("Error accessing the camera:", error);
+                });
+        });
+
+        switchButton.addEventListener('click', function() {
+            // Toggle between available camera options
+            if (currentFacingMode === "user") {
+                constraints.video.facingMode = { exact: "environment" };
+                currentFacingMode = "environment";
+            } else {
+                constraints.video.facingMode = { exact: "user" };
+                currentFacingMode = "user";
+            }
+
+            // Reinitialize video stream with updated constraints
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function(stream) {
+                    track.stop(); // Stop the current stream
+                    track = stream.getTracks()[0];
+                    video.srcObject = stream;
+                })
+                .catch(function(error) {
+                    console.error("Error switching camera:", error);
+                });
+        });
     });
-  </script>  
-  
+</script>
+
 {% endblock %}
