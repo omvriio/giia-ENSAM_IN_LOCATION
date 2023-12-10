@@ -1,4 +1,4 @@
-from flask import Flask , render_template,url_for,flash,redirect
+from flask import Flask , render_template,url_for,flash,redirect,request
 from forms import RegistrationForm,LoginForm
 import os
 app = Flask(__name__)
@@ -23,7 +23,8 @@ posts = [
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('index.html',posts=posts)
+    current_url=request.url
+    return render_template('index.html',posts=posts,current_url=current_url)
 @app.route("/video")
 def video():
     return render_template("video.html")
