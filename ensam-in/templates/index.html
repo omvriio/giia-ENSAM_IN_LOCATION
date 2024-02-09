@@ -1,23 +1,76 @@
 {% extends "layout.html"%}
-{% block style %}
-    <style>
-        
-    </style>
-
-
-{% endblock %}
-
-{% block content %}
-    {% for post in posts %}
-    <article class="media content-section">
-        <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="#">{{ post.author }}</a>
-                <small class="text-muted">{{ post.date_posted }}</small>
-            </div>
-            <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
+{%block map%}
+<nav class="nav1 bg-steel">
+    <a href="/" class="nav__link">
+      <div class="d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="30" viewBox="0 0 63.12 66">
+          <g id="Layer_2" data-name="Layer 2">
+            <g id="Layer_1-2" data-name="Layer 1">
+              <path class="cls-1 path-hovered" style="padding: 3px;" d="M10.27,64H52.84a8.29,8.29,0,0,0,8.28-8.28V24.5A11.09,11.09,0,0,0,55.77,15L36.29,3.31a9.18,9.18,0,0,0-9.46,0L7.35,15A11.1,11.1,0,0,0,2,24.5V55.72A8.28,8.28,0,0,0,10.27,64Zm10.2-16.66a9,9,0,0,1,9-9H33.7a9,9,0,0,1,8.95,9v9.39H20.47Z"/>
+            </g>
+          </g>
+        </svg>
+        <span class="transition-span d-none d-md-inline ml-5" style="font-family: 'Silkscreen';"> index</span>
+      </div>
+    </a>
+    <a href="/video" class="nav__link">
+      <div class="d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="40" viewBox="0 0 76.65 76.85">
+          <g id="Layer_2" data-name="Layer 2">
+            <g id="Layer_1-2" data-name="Layer 1">
+              <path class="cls-1 "  d="M74.65,36.23a.83.83,0,0,0-.82-.83H65.49a27.33,27.33,0,0,0-23.42-24,.82.82,0,0,1-.71-.8l-.11-7.72A.82.82,0,0,0,40.43,2L36.11,2a.82.82,0,0,0-.83.81l-.22,8.45h0A27.44,27.44,0,0,0,11.16,35.4H2.83a.83.83,0,0,0-.83.83v4.42a.83.83,0,0,0,.83.83h7.6a.82.82,0,0,1,.82.71A27.18,27.18,0,0,0,34.52,65.68a.83.83,0,0,1,.71.81l.05,7.37a.83.83,0,0,0,.8.82l4.43.17a.83.83,0,0,0,.86-.83v-7.7a.82.82,0,0,1,.71-.81,27.33,27.33,0,0,0,23.41-24h8.34a.83.83,0,0,0,.82-.83ZM46.32,32,41.57,49a1.21,1.21,0,0,1-2.34,0l-2.08-8.59a1.21,1.21,0,0,0-.91-.9l-8.18-1.86A1.21,1.21,0,0,1,28,35.21L44.82,30.5A1.22,1.22,0,0,1,46.32,32Z"/>
+            </g>
+          </g>
+        </svg>
+        <span class="transition-span d-none d-md-inline ml-5" style="font-family: 'Silkscreen';"> video</span>
+      </div>
+    </a>
+    <a href="/map" class="nav__link">
+        <div class="d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" height=40 width=auto viewBox="0 0 55.65 56.38">
+            <g id="Layer_2" data-name="Layer 2">
+            <g id="Layer_1-2" data-name="Layer 1">
+                <path class="cls-1" d="M17.69,21.72c-1.09-3.76-2.78-9.61.36-14.78.52-.85,3.73-5.9,9.29-6,5.25-.08,8.53,4.36,9.15,5.25,3.62,5.16,2,11.48,1.1,15a29.93,29.93,0,0,1-10,15.39A31.13,31.13,0,0,1,17.69,21.72ZM27.34,8.9a4.89,4.89,0,1,0,4.88,4.88A4.88,4.88,0,0,0,27.34,8.9Z"/>
+                <path class="cls-1" d="M18.3,47,11.22,18.05,1,23.18l.12,31.63L18.3,47l19.05,8.42,17.22-8.3.12-31.87-11,4.51Q40.52,37.6,37.35,55.42"/>
+            </g>
+            </g>
+        </svg>
+        <span class="transition-span d-none d-md-inline ml-5" style="font-family: 'Silkscreen';"> map</span>
         </div>
-    </article>
-    {% endfor %}
+    </a>
+</nav>
+{%endblock%}
+{% block content %}
+<section class="home align-items-center justify-content-flex-end" width=100% style="padding-top: 20px;">
+
+        <div class="content" style="align-self: center; z-index: 2;">
+            <h1 class="title " style="font-family: 'Silkscreen';font-size: 70px; padding-bottom:20px;text-align: center;">ENSAM INLOCATION </span> </h1>
+            <p class="description " style="text-align: center; margin: inline 40px;padding:0;margin-bottom: 0;"> indoor localisation using computer vision ; </p><p class="description " style="text-align: center; margin: inline 40px;padding-top:0;">project based at ENSAM Meknès </p>
+            <div class="d-flex  justify-content-center flex-wrap">
+                <a href="/google" class="btn" style="font-family: 'Silkscreen'; margin-inline: 10px; ">DEV Mode</a>
+                <a href="/video" class="btn" style="font-family: 'Silkscreen';margin-inline: 10px;">User Mode</a>
+        </div>
+
+        <div class="image" style="z-index:1;position:fixed;bottom:10%;left: 10%;">
+            <img src="../static/icon/favicon.svg" alt="" data-speed="-3" class="move">
+        </div>
+    </div>
+    <img id="camera--sensor" src="../static/bg.png" style="z-index: 0; top:0;overflow-y: scroll;">
+
+</section>
+<script>
+    document.addEventListener('mousemove', move);
+    function move(e){
+    this.querySelectorAll('.move').forEach(layer =>{
+        const speed = layer.getAttribute('data-speed')
+
+        const x = (window.innerWidth - e.pageX*speed)/120
+        const y = (window.innerWidth - e.pageY*speed)/120
+
+        layer.style.transform = `translateX(${x}px) translateY(${y}px)`
+
+    })
+    }
+
+</script>
 {% endblock %}

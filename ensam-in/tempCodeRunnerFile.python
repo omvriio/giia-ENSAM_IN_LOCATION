@@ -1,0 +1,31 @@
+def replace_numbers(phone_numbers):
+    replaced_numbers = []
+    for number in phone_numbers:
+        if number.startswith('0'):
+            replaced_numbers.append('+212' + number[1:])
+        else:
+            replaced_numbers.append(number)
+    return replaced_numbers
+
+def format_phone_numbers(phone_numbers):
+    formatted_numbers = ' '.join(phone_numbers)
+    return formatted_numbers
+
+# Example list of phone numbers (replace this with your input)
+phone_list = [
+    '0655447668', '0661526230', '0610587623', '0642987821', '0623422579', '0682979540',
+    '0760501081', '0639582701', '0772565403', '0613638572', '0620865856', '0681757014',
+    '0708228308', '0696430470', '0700421224', '0697856000', '0659310266', '0673355446',
+    '0766489770', '0656978010', '0762249599', '0652200797', '0675536833', '0629538394',
+    '0620038934', '0771026039', '0617415547', '0656753360', '0661065109', '0632796229',
+    '0627079619', '0603693060', '0659142341', '0644346474', '2126524283', '0656653165',
+    '0691789451', '0619384757'
+]
+
+# Replace numbers starting with '0' with '+212'
+replaced_numbers = replace_numbers(phone_list)
+
+# Format and print the updated list separated by space
+formatted_numbers = format_phone_numbers(replaced_numbers)
+print(formatted_numbers)
+
